@@ -59,17 +59,14 @@ class EventsResource(Resource):
     def create(
         self,
         club_id: UUID | str,
-        start: datetime,
+        scheduled_at: datetime,
         *,
-        end: datetime | None = None,
         location: str | None = None,
         movie_id: UUID | str | None = None,
         schedule: EventScheduleInput | None = None,
     ) -> Event:
         """Create an event (admin only)."""
-        body: dict = {"start": start.isoformat()}
-        if end is not None:
-            body["end"] = end.isoformat()
+        body: dict = {"scheduled_at": scheduled_at.isoformat()}
         if location is not None:
             body["location"] = location
         if movie_id is not None:

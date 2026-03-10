@@ -44,10 +44,11 @@ class FMCClient:
         *,
         token: str | None = None,
         timeout: float = 30.0,
+        verify: bool = True,
     ) -> None:
         self._base_url = base_url.rstrip("/")
         self._token: str | None = token
-        self._http = httpx.Client(timeout=timeout)
+        self._http = httpx.Client(timeout=timeout, verify=verify)
 
         self.auth = AuthResource(self)
         self.users = UsersResource(self)

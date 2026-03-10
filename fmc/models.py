@@ -111,8 +111,6 @@ class MovieSuggestion(BaseModel):
     suggested_by: UUID
     status: SuggestionStatus
     movie: Movie | None = None
-    created_at: datetime
-    updated_at: datetime
 
 
 class Club(BaseModel):
@@ -143,8 +141,7 @@ class Event(BaseModel):
     club_id: UUID
     movie_id: UUID | None = None
     schedule_id: UUID | None = None
-    start: datetime
-    end: datetime | None = None
+    scheduled_at: datetime
     location: str | None = None
     status: EventStatus
     movie: Movie | None = None
@@ -218,7 +215,3 @@ class TMDBSearchResponse(BaseModel):
 class AuthResponse(BaseModel):
     user: User | None = None
     tokens: TokenPair
-
-
-class SocialLoginURL(BaseModel):
-    redirect_url: str

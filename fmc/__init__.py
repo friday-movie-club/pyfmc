@@ -27,7 +27,6 @@ from .models import (
     RSVPStatus,
     Schedule,
     ScheduleStatus,
-    SocialLoginURL,
     SuggestionStatus,
     TMDBSearchResponse,
     TMDBSearchResult,

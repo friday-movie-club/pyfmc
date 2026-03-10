@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from ._resource import Resource
-from .models import AuthResponse, SocialLoginURL, TokenPair
+from .models import AuthResponse, TokenPair
 
 
 class AuthResource(Resource):
@@ -15,7 +15,7 @@ class AuthResource(Resource):
         self._raise_for_status(resp)
         return AuthResponse.model_validate(resp.json())
 
-    def login(self, *, email: str | None = None, password: str | None = None, token: str | None = None) -> AuthResponse:
+    def login(self, *, email: str | None = None, password: str | None = None, token: str | None = None):
         """Login with email/password or a Personal Access Token.
 
         Pass ``token`` for PAT login, or ``email`` + ``password`` for standard login.
@@ -28,7 +28,8 @@ class AuthResource(Resource):
             body = {"email": email, "password": password}
         resp = self._post("/auth/login", json=body)
         self._raise_for_status(resp)
-        return AuthResponse.model_validate(resp.json())
+        response = TokenPair.model_validate(resp.json())
+        self._client.set_token(response.access_token)
 
     def refresh(self, refresh_token: str) -> TokenPair:
         """Exchange a refresh token for a new token pair."""
@@ -36,20 +37,3 @@ class AuthResource(Resource):
         self._raise_for_status(resp)
         return TokenPair.model_validate(resp.json())
 
-    def exchange(self, code: str) -> AuthResponse:
-        """Exchange an OAuth authorization code for tokens."""
-        resp = self._post("/auth/exchange", json={"code": code})
-        self._raise_for_status(resp)
-        return AuthResponse.model_validate(resp.json())
-
-    def social_register(self, social_token: str, name: str) -> AuthResponse:
-        """Complete social-auth registration for a new user."""
-        resp = self._post("/auth/social/register", json={"social_token": social_token, "name": name})
-        self._raise_for_status(resp)
-        return AuthResponse.model_validate(resp.json())
-
-    def social_login_url(self, provider: str) -> SocialLoginURL:
-        """Get the OAuth login URL for *provider* (``"google"`` or ``"apple"``)."""
-        resp = self._get(f"/auth/{provider}/login")
-        self._raise_for_status(resp)
-        return SocialLoginURL.model_validate(resp.json())
