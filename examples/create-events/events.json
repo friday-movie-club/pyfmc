@@ -1,0 +1,132 @@
+[
+  {
+    "date": "2024-01-26",
+    "movie": "Lawless",
+    "tmdb_id": 82633
+  },
+  {
+    "date": "2024-02-24",
+    "movie": "Blade Runner",
+    "tmdb_id": 78
+  },
+  {
+    "date": "2024-03-22",
+    "movie": "Brazil",
+    "tmdb_id": 68
+  },
+  {
+    "date": "2024-04-26",
+    "movie": "High Fidelity",
+    "tmdb_id": 243
+  },
+  {
+    "date": "2024-05-24",
+    "movie": "Tombstone",
+    "tmdb_id": 11969
+  },
+  {
+    "date": "2024-06-28",
+    "movie": "Fight Club",
+    "tmdb_id": 550
+  },
+  {
+    "date": "2024-07-26",
+    "movie": "The Grand Budapest Hotel",
+    "tmdb_id": 120467
+  },
+  {
+    "date": "2024-08-30",
+    "movie": "Dark City",
+    "tmdb_id": 2666
+  },
+  {
+    "date": "2024-09-27",
+    "movie": "The Godfather",
+    "tmdb_id": 238
+  },
+  {
+    "date": "2024-10-25",
+    "movie": "The Village",
+    "tmdb_id": 6947
+  },
+  {
+    "date": "2024-11-29",
+    "movie": "Planes, Trains and Automobiles",
+    "tmdb_id": 2609
+  },
+  {
+    "date": "2024-12-20",
+    "movie": "Bad Santa",
+    "tmdb_id": 10147
+  },
+  {
+    "date": "2025-01-24",
+    "movie": "Fargo",
+    "tmdb_id": 275
+  },
+  {
+    "date": "2025-02-28",
+    "movie": "Diner",
+    "tmdb_id": 13776
+  },
+  {
+    "date": "2025-03-28",
+    "movie": "Step Brothers",
+    "tmdb_id": 12133
+  },
+  {
+    "date": "2025-04-25",
+    "movie": "Dredd",
+    "tmdb_id": 49049
+  },
+  {
+    "date": "2025-05-23",
+    "movie": "The Saint",
+    "tmdb_id": 10003
+  },
+  {
+    "date": "2025-06-27",
+    "movie": "Three Amigos",
+    "tmdb_id": 8388
+  },
+  {
+    "date": "2025-07-25",
+    "movie": "Cool Hand Luke",
+    "tmdb_id": 903
+  },
+  {
+    "date": "2025-08-22",
+    "movie": "Remember the Titans",
+    "tmdb_id": 10637
+  },
+  {
+    "date": "2025-09-26",
+    "movie": "Old School",
+    "tmdb_id": 11635
+  },
+  {
+    "date": "2025-10-24",
+    "movie": "Butch Cassidy and the Sundance Kid",
+    "tmdb_id": 642
+  },
+  {
+    "date": "2025-11-28",
+    "movie": "Clerks",
+    "tmdb_id": 2292
+  },
+  {
+    "date": "2025-12-19",
+    "movie": "Goonies",
+    "tmdb_id": 9340
+  },
+  {
+    "date": "2026-01-23",
+    "movie": "Gangs of New York",
+    "tmdb_id": 3131
+  },
+  {
+    "date": "2026-02-27",
+    "movie": "The Lost Boys",
+    "tmdb_id": 1547
+  }
+]
