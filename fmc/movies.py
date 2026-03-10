@@ -17,9 +17,14 @@ class MoviesResource(Resource):
         self._raise_for_status(resp)
         return MovieSuggestion.model_validate(resp.json())
 
-    def list(self, club_id: UUID | str) -> PaginatedResult[MovieSuggestion]:
+    def list(self, club_id: UUID | str, include_past=None) -> PaginatedResult[MovieSuggestion]:
         """List all movie suggestions for a club."""
-        resp = self._get(f"/clubs/{club_id}/movies")
+        url = f"/clubs/{club_id}/movies"
+        if include_past is not None:
+            if include_past is True:
+                url += "?include_past=true"
+
+        resp = self._get(url)
         self._raise_for_status(resp)
         data = resp.json()
         return PaginatedResult[MovieSuggestion](

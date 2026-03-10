@@ -36,9 +36,12 @@ class EventsResource(Resource):
     # Listing / reading
     # ------------------------------------------------------------------
 
-    def list(self, club_id: UUID | str) -> PaginatedResult[Event]:
+    def list(self, club_id: UUID | str, after:datetime|None=None) -> PaginatedResult[Event]:
         """List all events for a club."""
-        resp = self._get(f"/clubs/{club_id}/events")
+        url = f"/clubs/{club_id}/events"
+        if after is not None:
+            url += f"?after={after.strftime("%Y-%m-%d")}"
+        resp = self._get(url)
         self._raise_for_status(resp)
         data = resp.json()
         return PaginatedResult[Event](
