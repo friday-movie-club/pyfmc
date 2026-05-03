@@ -1,6 +1,6 @@
 [project]
 name = "fmc"
-version = "0.1.0"
+version = "1.0.0"
 description = "Python client for the Friday Movie Club API"
 readme = "README.md"
 authors = [
