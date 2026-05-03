@@ -34,9 +34,9 @@ class SuggestionStatus(str, Enum):
 
 class EventStatus(str, Enum):
     upcoming = "upcoming"
-    past = "past"
+    completed = "completed"
     cancelled = "cancelled"
-
+    archived = "archived"
 
 class RSVPStatus(str, Enum):
     going = "going"
@@ -109,7 +109,6 @@ class MovieSuggestion(BaseModel):
     club_id: UUID
     movie_id: UUID
     suggested_by: UUID
-    status: SuggestionStatus
     movie: Movie | None = None
 
 
@@ -141,7 +140,8 @@ class Event(BaseModel):
     club_id: UUID
     movie_id: UUID | None = None
     schedule_id: UUID | None = None
-    scheduled_at: datetime
+    start_time: datetime | None = None
+    duration_minutes: int | None = None
     location: str | None = None
     status: EventStatus
     movie: Movie | None = None

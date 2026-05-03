@@ -36,11 +36,13 @@ class EventsResource(Resource):
     # Listing / reading
     # ------------------------------------------------------------------
 
-    def list(self, club_id: UUID | str, after:datetime|None=None) -> PaginatedResult[Event]:
+    def list(
+        self, club_id: UUID | str, after: datetime | None = None
+    ) -> PaginatedResult[Event]:
         """List all events for a club."""
         url = f"/clubs/{club_id}/events"
         if after is not None:
-            url += f"?after={after.strftime("%Y-%m-%d")}"
+            url += f"?after={after.strftime('%Y-%m-%d')}"
         resp = self._get(url)
         self._raise_for_status(resp)
         data = resp.json()
@@ -62,14 +64,18 @@ class EventsResource(Resource):
     def create(
         self,
         club_id: UUID | str,
-        scheduled_at: datetime,
+        start_time: datetime,
+        end_time: datetime,
         *,
         location: str | None = None,
         movie_id: UUID | str | None = None,
         schedule: EventScheduleInput | None = None,
     ) -> Event:
         """Create an event (admin only)."""
-        body: dict = {"scheduled_at": scheduled_at.isoformat()}
+        body: dict = {
+            "start_time": start_time.isoformat(),
+            "end_time": end_time.isoformat(),
+        }
         if location is not None:
             body["location"] = location
         if movie_id is not None:
@@ -113,9 +119,14 @@ class EventsResource(Resource):
     # Movie assignment
     # ------------------------------------------------------------------
 
-    def assign_movie(self, club_id: UUID | str, event_id: UUID | str, movie_id: UUID | str) -> Event:
+    def assign_movie(
+        self, club_id: UUID | str, event_id: UUID | str, movie_id: UUID | str
+    ) -> Event:
         """Assign a movie to an event (admin only)."""
-        resp = self._put(f"/clubs/{club_id}/events/{event_id}/movie", json={"movie_id": str(movie_id)})
+        resp = self._put(
+            f"/clubs/{club_id}/events/{event_id}/movie",
+            json={"movie_id": str(movie_id)},
+        )
         self._raise_for_status(resp)
         return Event.model_validate(resp.json())
 
@@ -129,10 +140,16 @@ class EventsResource(Resource):
     # RSVP
     # ------------------------------------------------------------------
 
-    def rsvp(self, club_id: UUID | str, event_id: UUID | str, status: RSVPStatus | str) -> None:
+    def rsvp(
+        self, club_id: UUID | str, event_id: UUID | str, status: RSVPStatus | str
+    ) -> None:
         """Submit or update an RSVP for an event."""
         resp = self._put(
             f"/clubs/{club_id}/events/{event_id}/rsvp",
-            json={"status": str(status.value if isinstance(status, RSVPStatus) else status)},
+            json={
+                "status": str(
+                    status.value if isinstance(status, RSVPStatus) else status
+                )
+            },
         )
         self._raise_for_status(resp)

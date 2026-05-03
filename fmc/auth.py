@@ -11,11 +11,19 @@ class AuthResource(Resource):
 
     def register(self, email: str, password: str, name: str) -> AuthResponse:
         """Register a new user account."""
-        resp = self._post("/auth/register", json={"email": email, "password": password, "name": name})
+        resp = self._post(
+            "/auth/register", json={"email": email, "password": password, "name": name}
+        )
         self._raise_for_status(resp)
         return AuthResponse.model_validate(resp.json())
 
-    def login(self, *, email: str | None = None, password: str | None = None, token: str | None = None):
+    def login(
+        self,
+        *,
+        email: str | None = None,
+        password: str | None = None,
+        token: str | None = None,
+    ):
         """Login with email/password or a Personal Access Token.
 
         Pass ``token`` for PAT login, or ``email`` + ``password`` for standard login.
@@ -24,16 +32,17 @@ class AuthResource(Resource):
             body: dict = {"token": token}
         else:
             if email is None or password is None:
-                raise ValueError("Provide either 'token' or both 'email' and 'password'")
+                raise ValueError(
+                    "Provide either 'token' or both 'email' and 'password'"
+                )
             body = {"email": email, "password": password}
         resp = self._post("/auth/login", json=body)
         self._raise_for_status(resp)
-        response = TokenPair.model_validate(resp.json())
-        self._client.set_token(response.access_token)
+        response = AuthResponse.model_validate(resp.json())
+        self._client.set_token(response.tokens.access_token)
 
     def refresh(self, refresh_token: str) -> TokenPair:
         """Exchange a refresh token for a new token pair."""
         resp = self._post("/auth/refresh", json={"refresh_token": refresh_token})
         self._raise_for_status(resp)
         return TokenPair.model_validate(resp.json())
-
