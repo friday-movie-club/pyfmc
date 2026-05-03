@@ -21,13 +21,13 @@ Resources are exposed as attributes on a single `FMCClient`:
 ## Installation
 
 ```bash
-pip install fmc
+pip install python-fmc
 ```
 
 Or with [uv](https://docs.astral.sh/uv/):
 
 ```bash
-uv add fmc
+uv add python-fmc
 ```
 
 ## Quickstart
