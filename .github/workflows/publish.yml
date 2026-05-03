@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/fmc
+      url: https://pypi.org/p/python-fmc
     permissions:
       id-token: write
     steps:
