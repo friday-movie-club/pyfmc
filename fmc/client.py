@@ -10,6 +10,7 @@ from .auth import AuthResource
 from .clubs import ClubsResource
 from .events import EventsResource
 from .movies import MoviesResource
+from .subscriptions import SubscriptionsResource
 from .users import UsersResource
 
 _DEFAULT_BASE_URL = "http://localhost:8080/api/v1"
@@ -36,6 +37,7 @@ class FMCClient:
     * :attr:`clubs`  – club CRUD, members, and invitations
     * :attr:`movies` – suggestions, rankings, and TMDB search
     * :attr:`events` – event CRUD, RSVP, and movie assignment
+    * :attr:`subscriptions` – subscription plans and user subscription
     """
 
     def __init__(
@@ -55,6 +57,7 @@ class FMCClient:
         self.clubs = ClubsResource(self)
         self.movies = MoviesResource(self)
         self.events = EventsResource(self)
+        self.subscriptions = SubscriptionsResource(self)
 
     # ------------------------------------------------------------------
     # Token management

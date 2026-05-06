@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from decimal import Decimal
 from enum import Enum
 from typing import Generic, TypeVar
 from uuid import UUID
@@ -54,6 +55,13 @@ class InvitationStatus(str, Enum):
 class ScheduleStatus(str, Enum):
     active = "active"
     inactive = "inactive"
+
+
+class SubscriptionStatus(str, Enum):
+    active = "active"
+    past_due = "past_due"
+    expired = "expired"
+    cancelled = "cancelled"
 
 
 # ---------------------------------------------------------------------------
@@ -173,6 +181,37 @@ class AggregateRanking(BaseModel):
     suggestion_id: UUID
     score: int
     movie: Movie | None = None
+
+
+# ---------------------------------------------------------------------------
+# Subscriptions
+# ---------------------------------------------------------------------------
+
+
+class SubscriptionPlan(BaseModel):
+    id: UUID
+    name: str
+    price: Decimal
+    currency_code: str
+    interval_months: int
+    max_clubs: int
+    max_members: int
+    active: bool
+    created_at: datetime
+    updated_at: datetime
+
+
+class UserSubscription(BaseModel):
+    id: UUID
+    user_id: UUID
+    status: SubscriptionStatus
+    plan_id: UUID
+    promo_code_id: UUID | None = None
+    current_period_start: datetime | None = None
+    current_period_end: datetime | None = None
+    max_clubs: int
+    max_members: int
+    updated_at: datetime
 
 
 # ---------------------------------------------------------------------------
