@@ -67,6 +67,7 @@ class EventsResource(Resource):
         start_time: datetime,
         end_time: datetime,
         *,
+        timezone: str | None = None,
         location: str | None = None,
         movie_id: UUID | str | None = None,
         schedule: EventScheduleInput | None = None,
@@ -76,6 +77,8 @@ class EventsResource(Resource):
             "start_time": start_time.isoformat(),
             "end_time": end_time.isoformat(),
         }
+        if timezone is not None:
+            body["timezone"] = timezone
         if location is not None:
             body["location"] = location
         if movie_id is not None:
@@ -91,17 +94,20 @@ class EventsResource(Resource):
         club_id: UUID | str,
         event_id: UUID | str,
         *,
-        start: datetime | None = None,
-        end: datetime | None = None,
+        start_time: datetime | None = None,
+        end_time: datetime | None = None,
+        timezone: str | None = None,
         location: str | None = None,
         schedule: EventScheduleInput | None = None,
     ) -> Event:
         """Update an event (admin only)."""
         body: dict = {}
-        if start is not None:
-            body["start"] = start.isoformat()
-        if end is not None:
-            body["end"] = end.isoformat()
+        if timezone is not None:
+            body["timezone"] = timezone
+        if start_time is not None:
+            body["start_time"] = start_time.isoformat()
+        if end_time is not None:
+            body["end_time"] = end_time.isoformat()
         if location is not None:
             body["location"] = location
         if schedule is not None:

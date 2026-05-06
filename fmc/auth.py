@@ -46,3 +46,8 @@ class AuthResource(Resource):
         resp = self._post("/auth/refresh", json={"refresh_token": refresh_token})
         self._raise_for_status(resp)
         return TokenPair.model_validate(resp.json())
+
+    def verify_email(self, verification_token: str):
+        """Verify a user's email address."""
+        resp = self._post("/auth/verify-email", json={"token": verification_token})
+        self._raise_for_status(resp)

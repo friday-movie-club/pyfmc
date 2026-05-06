@@ -67,6 +67,7 @@ class User(BaseModel):
     name: str
     avatar_url: str | None = None
     role: UserRole
+    email_verified: bool = False
     created_at: datetime
     updated_at: datetime
 
@@ -145,6 +146,7 @@ class Event(BaseModel):
     location: str | None = None
     status: EventStatus
     movie: Movie | None = None
+    rsvps: list[EventRSVP] = Field(default_factory=list)
     created_at: datetime
     updated_at: datetime
 
