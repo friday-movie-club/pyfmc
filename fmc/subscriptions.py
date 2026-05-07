@@ -14,7 +14,6 @@ class SubscriptionsResource(Resource):
     def list_plans(self) -> PaginatedResult[SubscriptionPlan]:
         """List all available subscription plans (public endpoint)."""
         resp = self._get("/subscription-plans")
-        self._raise_for_status(resp)
         data = resp.json()
         return PaginatedResult[SubscriptionPlan](
             items=[SubscriptionPlan.model_validate(p) for p in data.get("items", [])],
@@ -24,29 +23,23 @@ class SubscriptionsResource(Resource):
     def get(self) -> UserSubscription:
         """Get the current user's subscription."""
         resp = self._get("/users/me/subscription")
-        self._raise_for_status(resp)
         return UserSubscription.model_validate(resp.json())
 
-    def create(
-        self, plan_id: UUID | str, promo_code: str | None = None
-    ) -> UserSubscription:
+    def create(self, plan_id: UUID | str, promo_code: str | None = None) -> UserSubscription:
         """Create a subscription for the current user on the given plan."""
         body: dict = {"plan_id": str(plan_id)}
         if promo_code is not None:
             body["promo_code"] = promo_code
         resp = self._post("/users/me/subscription", json=body)
-        self._raise_for_status(resp)
         return UserSubscription.model_validate(resp.json())
 
     def cancel(self) -> None:
         """Cancel the current user's subscription."""
         resp = self._patch("/users/me/subscription", json={"action": "cancel"})
-        self._raise_for_status(resp)
 
     def apply_promo_code(self, code: str) -> UserSubscription:
         """Apply a promo code to the current user's subscription."""
         resp = self._post("/users/me/promo-code", json={"code": code})
-        self._raise_for_status(resp)
         return UserSubscription.model_validate(resp.json())
 
     def customer_portal_url(self, return_url: str | None = None) -> str:
@@ -55,5 +48,4 @@ class SubscriptionsResource(Resource):
         if return_url is not None:
             params["return_url"] = return_url
         resp = self._get("/users/me/subscription/portal", params=params)
-        self._raise_for_status(resp)
         return resp.json()["portal_url"]

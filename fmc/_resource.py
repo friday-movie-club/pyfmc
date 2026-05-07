@@ -28,21 +28,25 @@ class Resource:
     # ------------------------------------------------------------------
     # HTTP helpers
     # ------------------------------------------------------------------
+    def _request(self, method: str, path: str, **kwargs: Any) -> httpx.Response:
+        resp = self._client._request(method, path, **kwargs)
+        self._raise_for_status(resp)
+        return resp
 
     def _get(self, path: str, **kwargs: Any) -> httpx.Response:
-        return self._client._request("GET", path, **kwargs)
+        return self._request("GET", path, **kwargs)
 
     def _post(self, path: str, **kwargs: Any) -> httpx.Response:
-        return self._client._request("POST", path, **kwargs)
+        return self._request("POST", path, **kwargs)
 
     def _patch(self, path: str, **kwargs: Any) -> httpx.Response:
-        return self._client._request("PATCH", path, **kwargs)
+        return self._request("PATCH", path, **kwargs)
 
     def _put(self, path: str, **kwargs: Any) -> httpx.Response:
-        return self._client._request("PUT", path, **kwargs)
+        return self._request("PUT", path, **kwargs)
 
     def _delete(self, path: str, **kwargs: Any) -> httpx.Response:
-        return self._client._request("DELETE", path, **kwargs)
+        return self._request("DELETE", path, **kwargs)
 
     @staticmethod
     def _raise_for_status(response: httpx.Response) -> None:

@@ -5,6 +5,9 @@ from __future__ import annotations
 from typing import Any
 
 import httpx
+from pydantic import ValidationError
+
+from fmc.exceptions import APIError, AuthenticationError, ConflictError, ForbiddenError, NotFoundError
 
 from .auth import AuthResource
 from .clubs import ClubsResource
@@ -32,12 +35,12 @@ class FMCClient:
 
     All resource groups are available as attributes:
 
-    * :attr:`auth`   – authentication and token management
-    * :attr:`users`  – current-user profile and PATs
-    * :attr:`clubs`  – club CRUD, members, and invitations
-    * :attr:`movies` – suggestions, rankings, and TMDB search
-    * :attr:`events` – event CRUD, RSVP, and movie assignment
-    * :attr:`subscriptions` – subscription plans and user subscription
+    * :attr:`auth`   - authentication and token management
+    * :attr:`users`  - current-user profile and PATs
+    * :attr:`clubs`  - club CRUD, members, and invitations
+    * :attr:`movies` - suggestions, rankings, and TMDB search
+    * :attr:`events` - event CRUD, RSVP, and movie assignment
+    * :attr:`subscriptions` - subscription plans and user subscription
     """
 
     def __init__(

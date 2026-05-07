@@ -36,15 +36,12 @@ class EventsResource(Resource):
     # Listing / reading
     # ------------------------------------------------------------------
 
-    def list(
-        self, club_id: UUID | str, after: datetime | None = None
-    ) -> PaginatedResult[Event]:
+    def list(self, club_id: UUID | str, after: datetime | None = None) -> PaginatedResult[Event]:
         """List all events for a club."""
         url = f"/clubs/{club_id}/events"
         if after is not None:
             url += f"?after={after.strftime('%Y-%m-%d')}"
         resp = self._get(url)
-        self._raise_for_status(resp)
         data = resp.json()
         return PaginatedResult[Event](
             items=[Event.model_validate(e) for e in data.get("items", [])],
@@ -54,7 +51,6 @@ class EventsResource(Resource):
     def get(self, club_id: UUID | str, event_id: UUID | str) -> Event:
         """Get details of a specific event."""
         resp = self._get(f"/clubs/{club_id}/events/{event_id}")
-        self._raise_for_status(resp)
         return Event.model_validate(resp.json())
 
     # ------------------------------------------------------------------
@@ -86,7 +82,6 @@ class EventsResource(Resource):
         if schedule is not None:
             body["schedule"] = schedule.to_dict()
         resp = self._post(f"/clubs/{club_id}/events", json=body)
-        self._raise_for_status(resp)
         return Event.model_validate(resp.json())
 
     def update(
@@ -113,49 +108,36 @@ class EventsResource(Resource):
         if schedule is not None:
             body["schedule"] = schedule.to_dict()
         resp = self._patch(f"/clubs/{club_id}/events/{event_id}", json=body)
-        self._raise_for_status(resp)
         return Event.model_validate(resp.json())
 
     def delete(self, club_id: UUID | str, event_id: UUID | str) -> None:
         """Delete an event (admin only)."""
         resp = self._delete(f"/clubs/{club_id}/events/{event_id}")
-        self._raise_for_status(resp)
 
     # ------------------------------------------------------------------
     # Movie assignment
     # ------------------------------------------------------------------
 
-    def assign_movie(
-        self, club_id: UUID | str, event_id: UUID | str, movie_id: UUID | str
-    ) -> Event:
+    def assign_movie(self, club_id: UUID | str, event_id: UUID | str, movie_id: UUID | str) -> Event:
         """Assign a movie to an event (admin only)."""
         resp = self._put(
             f"/clubs/{club_id}/events/{event_id}/movie",
             json={"movie_id": str(movie_id)},
         )
-        self._raise_for_status(resp)
         return Event.model_validate(resp.json())
 
     def remove_movie(self, club_id: UUID | str, event_id: UUID | str) -> Event:
         """Remove the assigned movie from an event (admin only)."""
         resp = self._delete(f"/clubs/{club_id}/events/{event_id}/movie")
-        self._raise_for_status(resp)
         return Event.model_validate(resp.json())
 
     # ------------------------------------------------------------------
     # RSVP
     # ------------------------------------------------------------------
 
-    def rsvp(
-        self, club_id: UUID | str, event_id: UUID | str, status: RSVPStatus | str
-    ) -> None:
+    def rsvp(self, club_id: UUID | str, event_id: UUID | str, status: RSVPStatus | str) -> None:
         """Submit or update an RSVP for an event."""
         resp = self._put(
             f"/clubs/{club_id}/events/{event_id}/rsvp",
-            json={
-                "status": str(
-                    status.value if isinstance(status, RSVPStatus) else status
-                )
-            },
+            json={"status": str(status.value if isinstance(status, RSVPStatus) else status)},
         )
-        self._raise_for_status(resp)

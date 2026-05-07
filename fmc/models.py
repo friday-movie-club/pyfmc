@@ -39,6 +39,7 @@ class EventStatus(str, Enum):
     cancelled = "cancelled"
     archived = "archived"
 
+
 class RSVPStatus(str, Enum):
     going = "going"
     maybe = "maybe"
