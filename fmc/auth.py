@@ -14,6 +14,10 @@ class AuthResource(Resource):
         resp = self._post("/auth/register", json={"email": email, "password": password, "name": name})
         return AuthResponse.model_validate(resp.json())
 
+    def resend_verification(self):
+        """Resend the email verification."""
+        self._post("/auth/resend-verification")
+
     def login(
         self,
         *,
