@@ -134,6 +134,15 @@ class Club(BaseModel):
     updated_at: datetime
 
 
+class ClubMember(BaseModel):
+    id: UUID
+    email: str
+    name: str
+    avatar_url: str | None = None
+    created_at: datetime
+    updated_at: datetime
+
+
 class Schedule(BaseModel):
     id: UUID
     club_id: UUID

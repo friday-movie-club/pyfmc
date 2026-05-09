@@ -6,7 +6,7 @@ from pathlib import Path
 from uuid import UUID
 
 from ._resource import Resource
-from .models import Club, EmailInvitation, PaginatedResult, User
+from .models import Club, EmailInvitation, PaginatedResult, ClubMember
 
 
 class ClubsResource(Resource):
@@ -62,12 +62,12 @@ class ClubsResource(Resource):
     # Members
     # ------------------------------------------------------------------
 
-    def list_members(self, club_id: UUID | str) -> PaginatedResult[User]:
+    def list_members(self, club_id: UUID | str) -> PaginatedResult[ClubMember]:
         """List members of a club."""
         resp = self._get(f"/clubs/{club_id}/members")
         data = resp.json()
-        return PaginatedResult[User](
-            items=[User.model_validate(u) for u in data.get("items", [])],
+        return PaginatedResult[ClubMember](
+            items=[ClubMember.model_validate(u) for u in data.get("items", [])],
             next_cursor=data.get("next_cursor"),
         )
 
