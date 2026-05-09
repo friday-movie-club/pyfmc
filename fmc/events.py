@@ -137,7 +137,7 @@ class EventsResource(Resource):
 
     def rsvp(self, club_id: UUID | str, event_id: UUID | str, status: RSVPStatus | str) -> None:
         """Submit or update an RSVP for an event."""
-        resp = self._put(
+        self._put(
             f"/clubs/{club_id}/events/{event_id}/rsvp",
             json={"status": str(status.value if isinstance(status, RSVPStatus) else status)},
         )
