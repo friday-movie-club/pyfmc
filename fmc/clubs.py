@@ -92,9 +92,9 @@ class ClubsResource(Resource):
         resp = self._post(f"/clubs/{club_id}/invite-code")
         return Club.model_validate(resp.json())
 
-    def accept_invitation(self, code: str) -> Club:
-        """Accept a club invitation using its invite code."""
-        resp = self._post(f"/invitations/{code}/accept")
+    def accept_email_invitation(self, club_id: UUID, code: str) -> Club:
+        """Accept a club invitation using an email invitation code."""
+        resp = self._post(f"/clubs/{club_id}/invitations/{code}/accept")
         return Club.model_validate(resp.json())
 
     # ------------------------------------------------------------------
