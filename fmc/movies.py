@@ -37,13 +37,13 @@ class MoviesResource(Resource):
 
     def remove(self, club_id: UUID | str, movie_id: UUID | str) -> None:
         """Remove a movie suggestion (admin only)."""
-        resp = self._delete(f"/clubs/{club_id}/movies/{movie_id}")
+        self._delete(f"/clubs/{club_id}/movies/{movie_id}")
 
-    def submit_ranking(self, club_id: UUID | str, ranked_movie_ids: list[UUID | str]) -> None:
+    def submit_ranking(self, club_id: UUID | str, suggestion_ids: list[UUID | str]) -> None:
         """Submit a ranked preference list of movie suggestion IDs."""
-        resp = self._put(
+        self._put(
             f"/clubs/{club_id}/rankings",
-            json={"ranked_movie_ids": [str(mid) for mid in ranked_movie_ids]},
+            json={"suggestion_ids": [str(mid) for mid in suggestion_ids]},
         )
 
     def aggregate_ranking(self, club_id: UUID | str) -> PaginatedResult[AggregateRanking]:
