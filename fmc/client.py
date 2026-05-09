@@ -5,9 +5,6 @@ from __future__ import annotations
 from typing import Any
 
 import httpx
-from pydantic import ValidationError
-
-from fmc.exceptions import APIError, AuthenticationError, ConflictError, ForbiddenError, NotFoundError
 
 from .auth import AuthResource
 from .clubs import ClubsResource
