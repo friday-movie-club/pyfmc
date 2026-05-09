@@ -175,7 +175,6 @@ class EmailInvitation(BaseModel):
     status: InvitationStatus
     expires_at: datetime
     created_at: datetime
-    updated_at: datetime
 
 
 class AggregateRanking(BaseModel):
