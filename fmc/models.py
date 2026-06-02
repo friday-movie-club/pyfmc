@@ -188,7 +188,7 @@ class EmailInvitation(BaseModel):
 
 class AggregateRanking(BaseModel):
     movie_suggestion_id: UUID
-    score: int
+    score: float
     movie: Movie | None = None
 
 
