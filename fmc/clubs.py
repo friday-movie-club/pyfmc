@@ -67,7 +67,7 @@ class ClubsResource(Resource):
         resp = self._get(f"/clubs/{club_id}/members")
         data = resp.json()
         return PaginatedResult[ClubMember](
-            items=[ClubMember.model_validate(u) for u in data.get("items", [])],
+            items=[ClubMember.model_validate(u) for u in data.get("items", {}).items()],
             next_cursor=data.get("next_cursor"),
         )
 

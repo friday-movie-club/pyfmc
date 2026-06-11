@@ -118,7 +118,7 @@ class MovieSuggestion(BaseModel):
     id: UUID
     club_id: UUID
     movie_id: UUID
-    suggested_by: UUID
+    suggested_by: str | None = None
     movie: Movie | None = None
 
 
